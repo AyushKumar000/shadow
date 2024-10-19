@@ -15,3 +15,8 @@
   background-color: #4c51bf; /* Scrollbar thumb color */
   border-radius: 10px;
 }
+.master-bg {
+  background-image: url("./assets/Desktop\ -\ 1.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
