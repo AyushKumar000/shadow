@@ -67,10 +67,38 @@ function App() {
     }
   };
 
+  function EpClickhandler(getString) {
+    // Directly set inputMessage and handle sending the message
+    const newMessages = [...messages, { text: getString, sender: "user" }];
+    setMessages(newMessages);
+    setInputMessage(getString);
+
+    // Send message to backend for analysis
+    axios
+      .post("http://localhost:5000/api/analyze", { message: getString })
+      .then((response) => {
+        const botResponse = {
+          text: marked(response.data.reply), // Format using marked
+          sender: "bot",
+          isCode: true, // Mark as code for rendering
+        };
+        setMessages([...newMessages, botResponse]);
+      })
+      .catch((error) => {
+        console.error("Error fetching the bot response:", error);
+        const errorResponse = {
+          text: "Sorry, I encountered an error. Please try again.",
+          sender: "bot",
+        };
+        setMessages([...newMessages, errorResponse]);
+      });
+    setInputMessage("");
+  }
+
   return (
     <div className="overflow-hidden master-bg">
       <div className="flex max-w-7xl h-[100dvh] mx-auto">
-        <LeftPanel />
+        <LeftPanel EpClickhandler={EpClickhandler} />
         <div className="w-full py-4 pr-4">
           <div className="flex flex-col h-full max-w-5xl p-6 rounded-lg shadow-2xl bg-dark_bg ">
             <motion.div
