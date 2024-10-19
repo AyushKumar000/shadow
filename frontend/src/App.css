@@ -65,7 +65,7 @@ code {
   color: #d6d925; /* Code color */
   font-size: 0.8rem; /* Increase font size */
   padding: 4px 8px; /* Padding for code blocks */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 0.6rem; /* Rounded corners */
   white-space: pre-wrap; /* Allow wrapping of code */
   word-wrap: break-word; /* Break long words */
   margin-top: 1rem;
