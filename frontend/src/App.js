@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import ChatUi from "./components/ChatUi";
 import "./App.css"; // Import the CSS file for custom styles
 import LeftPanel from "./components/LeftPanel";
 import { motion } from "framer-motion";
 import SVG from "./Svg/SVG";
 import right_arrow from "./Svg/right_arrow";
 import { marked } from "marked";
+import hljs from "highlight.js"; // Import highlight.js
+import "highlight.js/styles/github-dark.css"; // Import the theme you want
 import logo from "./Svg/logo";
 
 function App() {
@@ -26,6 +27,14 @@ function App() {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
+  }, [messages]);
+
+  // Function to highlight code blocks
+  useEffect(() => {
+    // Highlight all code blocks after the messages are updated
+    document.querySelectorAll("pre code").forEach((block) => {
+      hljs.highlightElement(block);
+    });
   }, [messages]);
 
   // Function to send messages to the backend
@@ -63,23 +72,35 @@ function App() {
       <div className="flex max-w-7xl h-[100dvh] mx-auto">
         <LeftPanel />
         <div className="w-full py-4 pr-4">
-          <div className="flex flex-col h-full max-w-5xl p-6 rounded-lg shadow-2xl bg-dark_bg">
-            <motion.div className="flex items-center justify-center space-x-2 cursor-grab" drag dragConstraints={{top:0,bottom:0,left:0,right:0}}>
+          <div className="flex flex-col h-full max-w-5xl p-6 rounded-lg shadow-2xl bg-dark_bg ">
+            <motion.div
+              className="flex items-center justify-center space-x-2 cursor-grab"
+              drag
+              dragConstraints={{ top: 0, bottom: 0, left: 0, right: 0 }}
+            >
               <SVG svg={logo} className="w-8 h-8" />
               <h1 className="text-2xl font-bold tracking-tight text-white animated-bg">
                 CWYRECK
               </h1>
             </motion.div>
 
-            <div className="w-full h-[2px] my-4 rounded-full bg-stone-500" />
+            <div className="w-full  my-4 rounded-full animated" />
 
-            <div className="flex flex-col flex-grow pr-3 space-y-4 overflow-auto rounded-lg scrollbar-thin">
+            <div className="flex flex-col flex-grow pr-3 space-y-4 overflow-auto rounded-lg scrollbar-thin overflow-x-hidden">
               {messages.map((message, index) => (
-                <div
+                <motion.div
                   key={index}
                   className={`flex ${
                     message.sender === "bot" ? "justify-start" : "justify-end"
                   }`}
+                  initial={{
+                    x: `${message.sender === "bot" ? "-100px" : "100px"}`,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    x: 0,
+                    opacity: 1,
+                  }}
                 >
                   <div
                     className={`px-3 py-2 message rounded-lg max-w-3xl ${
@@ -97,7 +118,7 @@ function App() {
                       </div>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
               {/* This element ensures the view scrolls to the bottom */}
               <div ref={messageEndRef} />
@@ -111,7 +132,7 @@ function App() {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
-                whileTap={{scale:'0.96'}}
+                whileTap={{ scale: "0.96" }}
               />
               <button onClick={handleSend}>
                 <div className="cursor-pointer">
