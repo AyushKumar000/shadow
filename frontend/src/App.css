@@ -1,3 +1,8 @@
+/* highlight.js default theme */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/github-dark.min.css");
+
+/* Adjust other styles as needed */
+
 .scrollbar-thin {
   scrollbar-width: thin;
 
@@ -57,40 +62,63 @@
 
 /* Code block styles */
 code {
-  /* background-color: #f5f5f5; Light background for code blocks */
-
-  color: #d6d925; /* Change this to your preferred code color */
-
-  font-size: 1.05rem; /* Increase font size */
-
-  padding: 2px 4px; /* Padding for code blocks */
-
-  border-radius: 4px; /* Rounded corners for code blocks */
+  color: #d6d925; /* Code color */
+  font-size: 0.8rem; /* Increase font size */
+  padding: 4px 8px; /* Padding for code blocks */
+  border-radius: 4px; /* Rounded corners */
+  white-space: pre-wrap; /* Allow wrapping of code */
+  word-wrap: break-word; /* Break long words */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Bold text styles */
 strong {
   font-weight: bold; /* Bold text */
 }
+.animated {
+  min-height: 3px;
+  background-image: linear-gradient(
+    to right,
+    #ff202f,
+    #c145ff,
+    #12c2e9,
+    #12e95d
+  );
+  background-size: 200%;
+  animation-name: logo_animate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+.animated-bg {
+  background: #12c2e9; /* fallback for old browsers */
 
-.animated-bg{
-  background: #12c2e9;  /* fallback for old browsers */
-
-background-image: linear-gradient(to right, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: () no-repeat;
- -webkit-background-clip: text;
- background-clip: text;
- color: transparent;
- background-size:300%;
- animation-name: logo_animate ;
- animation-duration: 1s;
+  background-image: linear-gradient(
+    to right,
+    #ff202f,
+    #c145ff,
+    #12c2e9,
+    #12e95d
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: () no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 300%;
+  animation-name: logo_animate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
 }
 
 @keyframes logo_animate {
-  from{
-    background-position: left ;
+  from {
+    background-position: left;
   }
-  to{
-    background-position: right;  
+  to {
+    background-position: right;
   }
 }
