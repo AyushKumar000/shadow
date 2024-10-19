@@ -6,7 +6,7 @@ function HistoryChat(props) {
       whileTap={{ scale: 0.9 }}
     >
       <div className="absolute w-4 h-full top-0 left-[-5%] bg-lime_green group-hover:bg-light_green duration-300 " />
-      <p className="text-[#D4D4D4] text-xs font-semibold group-hover:text-white duration-300 ">
+      <p className="text-[#D4D4D4] text-sm font-semibold group-hover:text-white duration-300 ">
         {props.text}
       </p>
     </motion.div>

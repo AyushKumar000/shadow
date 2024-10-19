@@ -72,3 +72,25 @@ code {
 strong {
   font-weight: bold; /* Bold text */
 }
+
+.animated-bg{
+  background: #12c2e9;  /* fallback for old browsers */
+
+background-image: linear-gradient(to right, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: () no-repeat;
+ -webkit-background-clip: text;
+ background-clip: text;
+ color: transparent;
+ background-size:300%;
+ animation-name: logo_animate ;
+ animation-duration: 1s;
+}
+
+@keyframes logo_animate {
+  from{
+    background-position: left ;
+  }
+  to{
+    background-position: right;  
+  }
+}

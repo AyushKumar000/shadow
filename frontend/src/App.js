@@ -64,12 +64,12 @@ function App() {
         <LeftPanel />
         <div className="w-full py-4 pr-4">
           <div className="flex flex-col h-full max-w-5xl p-6 rounded-lg shadow-2xl bg-dark_bg">
-            <div className="flex items-center justify-center space-x-2">
+            <motion.div className="flex items-center justify-center space-x-2 cursor-grab" drag dragConstraints={{top:0,bottom:0,left:0,right:0}}>
               <SVG svg={logo} className="w-8 h-8" />
-              <h1 className="text-2xl font-bold tracking-tight text-white">
+              <h1 className="text-2xl font-bold tracking-tight text-white animated-bg">
                 CWYRECK
               </h1>
-            </div>
+            </motion.div>
 
             <div className="w-full h-[2px] my-4 rounded-full bg-stone-500" />
 
@@ -104,15 +104,16 @@ function App() {
             </div>
 
             <div className="flex items-center mt-4 space-x-2">
-              <input
+              <motion.input
                 type="text"
-                className="w-full px-5 py-3 text-sm font-light text-white transition-all duration-300 ease-in-out rounded-lg bg-gray_bg focus:outline-none"
+                className="w-full px-5 py-3 text-sm font-light text-white duration-100 rounded-lg bg-gray_bg focus:outline-none"
                 placeholder="Type a message..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                whileTap={{scale:'0.96'}}
               />
-              <button className="" onClick={handleSend}>
+              <button onClick={handleSend}>
                 <div className="cursor-pointer">
                   <motion.div whileTap={{ scale: 0.8 }}>
                     <SVG svg={right_arrow} className="w-10 h-10" />
