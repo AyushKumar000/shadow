@@ -1,9 +1,13 @@
-// App.js
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import ChatUi from "./components/ChatUi";
-import CodeSnippet from "./CodeSnippet"; // Import the new CodeSnippet component
 import "./App.css"; // Import the CSS file for custom styles
+import LeftPanel from "./components/LeftPanel";
+import { motion } from "framer-motion";
+import SVG from "./Svg/SVG";
+import right_arrow from "./Svg/right_arrow";
+import { marked } from "marked";
+import logo from "./Svg/logo";
 
 function App() {
   const [messages, setMessages] = useState([
@@ -13,6 +17,16 @@ function App() {
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
+
+  // Reference for the messages container to scroll to the bottom
+  const messageEndRef = useRef(null);
+
+  // Scroll to the bottom whenever messages change
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   // Function to send messages to the backend
   const handleSend = () => {
@@ -25,11 +39,12 @@ function App() {
       axios
         .post("http://localhost:5000/api/analyze", { message: inputMessage })
         .then((response) => {
+          // Convert the response Markdown to HTML using marked
           const botResponse = {
-            text: response.data.reply,
+            text: marked(response.data.reply), // Format using marked
             sender: "bot",
-            isCode: true,
-          }; // Mark as code
+            isCode: true, // Mark as code for rendering
+          };
           setMessages([...newMessages, botResponse]);
         })
         .catch((error) => {
@@ -44,58 +59,71 @@ function App() {
   };
 
   return (
-    <div className="w-full h-[100vh]  master-bg">
-      <ChatUi />
+    <div className="overflow-hidden master-bg">
+      <div className="flex max-w-7xl h-[100dvh] mx-auto">
+        <LeftPanel />
+        <div className="w-full py-4 pr-4">
+          <div className="flex flex-col h-full max-w-5xl p-6 rounded-lg shadow-2xl bg-dark_bg">
+            <div className="flex items-center justify-center space-x-2">
+              <SVG svg={logo} className="w-8 h-8" />
+              <h1 className="text-2xl font-bold tracking-tight text-white">
+                CWYRECK
+              </h1>
+            </div>
+
+            <div className="w-full h-[2px] my-4 rounded-full bg-stone-500" />
+
+            <div className="flex flex-col flex-grow pr-3 space-y-4 overflow-auto rounded-lg scrollbar-thin">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    message.sender === "bot" ? "justify-start" : "justify-end"
+                  }`}
+                >
+                  <div
+                    className={`px-3 py-2 message rounded-lg max-w-3xl ${
+                      message.sender === "bot" ? "bot-message" : "user-message"
+                    }`}
+                  >
+                    {message.isCode ? (
+                      <div
+                        className="px-3 py-2 text-sm font-light tracking-wider"
+                        dangerouslySetInnerHTML={{ __html: message.text }} // Render HTML from Markdown
+                      />
+                    ) : (
+                      <div className="text-sm font-light tracking-wider">
+                        {message.text}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {/* This element ensures the view scrolls to the bottom */}
+              <div ref={messageEndRef} />
+            </div>
+
+            <div className="flex items-center mt-4 space-x-2">
+              <input
+                type="text"
+                className="w-full px-5 py-3 text-sm font-light text-white transition-all duration-300 ease-in-out rounded-lg bg-gray_bg focus:outline-none"
+                placeholder="Type a message..."
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSend()}
+              />
+              <button className="" onClick={handleSend}>
+                <div className="cursor-pointer">
+                  <motion.div whileTap={{ scale: 0.8 }}>
+                    <SVG svg={right_arrow} className="w-10 h-10" />
+                  </motion.div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    // <div className="flex justify-center items-center h-screen bg-[#111]">
-    //   <div className="bg-gray-900 shadow-2xl rounded-lg w-11/12 max-w-5xl h-5/6 p-6 flex flex-col">
-    //     {" "}
-    //     {/* Full screen adjustments */}
-    //     <div className="text-center text-2xl font-bold mb-4 text-indigo-300">
-    //       Code Vulnerability Assistant
-    //     </div>
-    //     {/* Chat messages */}
-    //     <div className="flex flex-col space-y-4 overflow-auto flex-grow p-4 bg-gray-700 rounded-lg scrollbar-thin scrollbar-thumb-indigo-500 scrollbar-track-gray-600">
-    //       {messages.map((message, index) => (
-    //         <div
-    //           key={index}
-    //           className={`flex ${
-    //             message.sender === "bot" ? "justify-start" : "justify-end"
-    //           }`}
-    //         >
-    //           <div
-    //             className={`px-4 py-2 rounded-xl max-w-3xl shadow-lg ${
-    //               message.sender === "bot" ? "bg-indigo-500" : "bg-green-600"
-    //             } border border-gray-400`} // Added border for elegance
-    //           >
-    //             {message.isCode ? (
-    //               <CodeSnippet code={message.text} /> // Render the CodeSnippet component
-    //             ) : (
-    //               <span className="text-white">{message.text}</span>
-    //             )}
-    //           </div>
-    //         </div>
-    //       ))}
-    //     </div>
-    //     {/* Message input box */}
-    //     <div className="mt-4 flex items-center space-x-2">
-    //       <input
-    //         type="text"
-    //         className="w-full px-4 py-2 border border-gray-500 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-300 transition-all duration-300 ease-in-out bg-gray-800 text-white"
-    //         placeholder="Type a message..."
-    //         value={inputMessage}
-    //         onChange={(e) => setInputMessage(e.target.value)}
-    //         onKeyPress={(e) => e.key === "Enter" && handleSend()}
-    //       />
-    //       <button
-    //         className="bg-indigo-600 text-white px-4 py-2 rounded-full shadow-md hover:bg-indigo-500 transition duration-300 ease-in-out"
-    //         onClick={handleSend}
-    //       >
-    //         Send
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }
 
