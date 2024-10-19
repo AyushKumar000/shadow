@@ -9,22 +9,22 @@ function LeftPanel(props) {
   };
   const cppClickHandler = () => {
     props.EpClickhandler(
-      '#include <iostream> using namespace std; int main() { int numbers[] = {1, 2, 3, 4, 5}; // Trying to access an element out of bounds (Error) cout << "The sixth element is: " << numbers[5] << endl; return 0; }'
+      'C++ code:\n ```cpp #include <iostream> using namespace std;\n int main()\n { int numbers[] = {1, 2, 3, 4, 5}; // Trying to access an element out of bounds (Error) \ncout << "The sixth element is: " << numbers[5] << endl;\n return 0; }'
     );
   };
   const pythonClickHandler = () => {
     props.EpClickhandler(
-      'def divide_numbers(a, b):   return a / b result = divide_numbers(10, 0)print("Result:", result)'
+      'Python Code:\n```python \ndef divide_numbers(a, b):\n return a / b \nresult = divide_numbers(10, 0) \nprint("Result:", result)'
     );
   };
   const javaClickHandler = () => {
     props.EpClickhandler(
-      "public class Main {    public static void main(String[] args) {        String text = null;        System.out.println(text.length());    }}"
+      "Java Code: \n  ```java \n public class Main (public static void main(String[] args) \n{       \n String text = null;      \n  System.out.println(text.length());  \n    }\n}"
     );
   };
   const cClickHandler = () => {
     props.EpClickhandler(
-      '#include <stdio.h>int main() {    int a = 5;    int b = 10;    int sum;    // Logical error: The addition operation is incorrect    sum = a * b;  // This should be ddition, not multiplication    printf("The sum of %d and %d is: %d\n", a, b, sum);    return 0;}'
+      'C : \n ```C \n#include <stdio.h>\nint main() \n{  \n  int a = 5;   \n int b = 10;  \n  int sum;    // Logical error: The addition operation is incorrect  \n  sum = a * b;  // This should be ddition, not multiplication \n   printf("The sum of %d and %d is: %d\n", a, b, sum);  \n  return 0;\n}'
     );
   };
 
