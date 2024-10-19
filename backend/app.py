@@ -10,8 +10,7 @@ class CodeVulnerabilityDetection(dspy.Signature):
     """You are the best coder who knows all the programming languages and can provide us the best possible solution or correction of a code."""
 
     code = dspy.InputField(desc="The source code to analyze for vulnerabilities.")
-    result = dspy.OutputField(desc="List of identified vulnerabilities, corresponding fixes:",
-                              prefix="Vulnerabilities:")
+    result = dspy.OutputField(desc="List of identified vulnerabilities, corresponding fixes:",prefix="Vulnerabilities:")
     fixes = dspy.OutputField(desc="Complete corrected code:",prefix="Fixed code: ")
 
 
