@@ -18,6 +18,7 @@ function App() {
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
+  const [isWaiting, setIsWaiting] = useState(false); // New state to track if the bot is processing
   const textareaRef = useRef(null);
   const messageEndRef = useRef(null);
   const maxHeight = 150;
@@ -36,8 +37,6 @@ function App() {
     });
   }, [messages]);
 
-  
-
   // Update the handleSend function
   const handleSend = () => {
     if (inputMessage.trim() !== "") {
@@ -51,27 +50,46 @@ function App() {
       // Clear the input message for the textarea
       setInputMessage(""); // Resetting the textarea here
 
+      // Add a temporary "waiting" message
+      setIsWaiting(true); // Set the waiting state
+      const waitingMessage = {
+        text: "The assistant is thinking...",
+        sender: "bot",
+      };
+      setMessages((prevMessages) => [...prevMessages, waitingMessage]);
+
       // Send message to backend for analysis
       axios
         .post("http://localhost:5000/api/analyze", { message: inputMessage })
         .then((response) => {
+          setIsWaiting(false); // Bot is no longer waiting for response
+
+          // Replace the "thinking" message with the actual response
           const botResponse = {
             text:
-            response.data.reply === ""
-              ? " Sorry, I encountered an error."
-              : marked(response.data.reply), // Format using marked
+              response.data.reply === ""
+                ? " Sorry, I encountered an error."
+                : marked(response.data.reply), // Format using marked
             sender: "bot",
             isCode: true,
           };
-          setMessages((prevMessages) => [...prevMessages, botResponse]);
+          setMessages((prevMessages) => [
+            ...prevMessages.slice(0, -1), // Remove the last "waiting" message
+            botResponse,
+          ]);
         })
         .catch((error) => {
           console.error("Error fetching the bot response:", error);
+          setIsWaiting(false);
+
           const errorResponse = {
             text: "Sorry, I encountered an error. Please try again.",
             sender: "bot",
           };
-          setMessages((prevMessages) => [...prevMessages, errorResponse]);
+          setMessages((prevMessages) => [
+            ...prevMessages.slice(0, -1), // Remove the "waiting" message
+            errorResponse,
+          ]);
         });
     }
   };
@@ -86,10 +104,21 @@ function App() {
     setMessages(newMessages);
     setInputMessage(getString); // Keep the original input for the textarea
 
+    // Add a temporary "waiting" message
+    setIsWaiting(true);
+    const waitingMessage = {
+      text: "The assistant is thinking...",
+      sender: "bot",
+    };
+    setMessages((prevMessages) => [...prevMessages, waitingMessage]);
+
     // Send message to backend for analysis
     axios
       .post("http://localhost:5000/api/analyze", { message: getString })
       .then((response) => {
+        setIsWaiting(false); // Bot is no longer waiting for response
+
+        // Replace the "thinking" message with the actual response
         const botResponse = {
           text:
             response.data.reply === ""
@@ -98,15 +127,23 @@ function App() {
           sender: "bot",
           isCode: true,
         };
-        setMessages([...newMessages, botResponse]);
+        setMessages((prevMessages) => [
+          ...prevMessages.slice(0, -1), // Remove the "waiting" message
+          botResponse,
+        ]);
       })
       .catch((error) => {
         console.error("Error fetching the bot response:", error);
+        setIsWaiting(false);
+
         const errorResponse = {
           text: "Sorry, I encountered an error. Please try again.",
           sender: "bot",
         };
-        setMessages([...newMessages, errorResponse]);
+        setMessages((prevMessages) => [
+          ...prevMessages.slice(0, -1), // Remove the "waiting" message
+          errorResponse,
+        ]);
       });
     setInputMessage(""); // Reset input message
   }

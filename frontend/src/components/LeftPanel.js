@@ -27,6 +27,9 @@ function LeftPanel(props) {
       'C : \n ```C \n#include <stdio.h>\nint main() \n{  \n  int a = 5;   \n int b = 10;  \n  int sum;    // Logical error: The addition operation is incorrect  \n  sum = a * b;  // This should be ddition, not multiplication \n   printf("The sum of %d and %d is: %d\n", a, b, sum);  \n  return 0;\n}'
     );
   };
+  const gitClickHandler = ()=>{
+    props.EpClickhandler("https://github.com/sudiirkumar/AuthPanel");
+  }
 
   return (
     <div className="flex flex-col w-[24rem] h-full pl-6 pr-2 py-4 space-y-2">
@@ -43,6 +46,7 @@ function LeftPanel(props) {
           />
           <HistoryChat text="java Example Prompt" onClick={javaClickHandler} />
           <HistoryChat text="C Example Prompt" onClick={cClickHandler} />
+          <HistoryChat text="Git Example Prompt" onClick={gitClickHandler} />
         </div>
         {/* new chat */}
         <motion.div
