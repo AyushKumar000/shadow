@@ -1,0 +1,16 @@
+{
+  "name": "Cywreck",
+  "version": "1.0.0",
+  "description": "An AI chatbot to detect Vulnerabilities and security threats in the code and provide the fixes to that.",
+  "scripts": {
+    "backend": "cd backend && python app.py",        
+    "frontend": "cd frontend && npm start",          
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "install:backend": "cd backend && pip install -r requirements.txt", 
+    "install:frontend": "cd frontend && npm install",  
+    "install": "concurrently \"npm run install:frontend\" \"npm run install:backend\"" 
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"   
+  }
+}

@@ -36,64 +36,7 @@ function App() {
     });
   }, [messages]);
 
-  // Function to send messages to the backend
-  // const handleSend = () => {
-  //   if (inputMessage.trim() !== "") {
-  //     const newMessages = [...messages, { text: inputMessage, sender: "user" }];
-  //     setMessages(newMessages);
-
-  //     // Clear the input message for the textarea
-  //     setInputMessage(""); // Resetting the textarea here
-
-  //     // Send message to backend for analysis
-  //     axios
-  //       .post("http://localhost:5000/api/analyze", { message: inputMessage })
-  //       .then((response) => {
-  //         const botResponse = {
-  //           text: marked(response.data.reply),
-  //           sender: "bot",
-  //           isCode: true,
-  //         };
-  //         setMessages((prevMessages) => [...prevMessages, botResponse]);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching the bot response:", error);
-  //         const errorResponse = {
-  //           text: "Sorry, I encountered an error. Please try again.",
-  //           sender: "bot",
-  //         };
-  //         setMessages((prevMessages) => [...prevMessages, errorResponse]);
-  //       });
-  //   }
-  // };
-
-  // function EpClickhandler(getString) {
-  //   // Directly set inputMessage and handle sending the message
-  //   const newMessages = [...messages, { text: getString, sender: "user" }];
-  //   setMessages(newMessages);
-  //   setInputMessage(getString);
-
-  //   // Send message to backend for analysis
-  //   axios
-  //     .post("http://localhost:5000/api/analyze", { message: getString })
-  //     .then((response) => {
-  //       const botResponse = {
-  //         text: marked(response.data.reply), // Format using marked
-  //         sender: "bot",
-  //         isCode: true, // Mark as code for rendering
-  //       };
-  //       setMessages([...newMessages, botResponse]);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching the bot response:", error);
-  //       const errorResponse = {
-  //         text: "Sorry, I encountered an error. Please try again.",
-  //         sender: "bot",
-  //       };
-  //       setMessages([...newMessages, errorResponse]);
-  //     });
-  //   setInputMessage("");
-  // }
+  
 
   // Update the handleSend function
   const handleSend = () => {
@@ -209,7 +152,7 @@ function App() {
             >
               <SVG svg={logo} className="w-8 h-8" />
               <h1 className="text-2xl font-bold tracking-tight text-white animated-bg">
-                CWYRECK
+                CYWRECK
               </h1>
             </motion.div>
 
