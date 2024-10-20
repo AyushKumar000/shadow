@@ -113,7 +113,10 @@ function App() {
         .post("http://localhost:5000/api/analyze", { message: inputMessage })
         .then((response) => {
           const botResponse = {
-            text: marked(response.data.reply), // Format the bot's reply as well
+            text:
+            response.data.reply === ""
+              ? " Sorry, I encountered an error."
+              : marked(response.data.reply), // Format using marked
             sender: "bot",
             isCode: true,
           };
