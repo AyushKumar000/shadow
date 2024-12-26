@@ -31,13 +31,6 @@ class CodeVulnerabilityDetection(dspy.Signature):
         prefix="Analysis Result:"
     )
 
-    @staticmethod
-    def format_code_block(code):
-        # Ensure the code is properly indented and formatted
-        return '```\n'.join(line for line in code.splitlines() if line)  # Remove empty lines and keep indentation
-
-
-
 # DSPy setup with correct model configuration
 lm = dspy.GROQ(model="llama3-8b-8192", api_key="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")
 dspy.settings.configure(lm=lm)
@@ -45,12 +38,6 @@ dspy.settings.configure(lm=lm)
 # Function to format the code in proper markdown block
 def format_code_block(code):
     return f"\n{code}\n"
-
-def is_valid_file_extension(file_name):
-    # Check if file is not a .* file (hidden file) and matches the allowed extensions
-    if not file_name.startswith('.') and pattern.match(file_name):
-        return True
-    return False
 
 def is_github_repo_url(url):
     # Regular expression to match GitHub repository URLs
